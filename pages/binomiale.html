@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.32">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>3&nbsp; Distribuzione Binomiale – Distribution Explorer</title>
+<title>4&nbsp; Distribuzione Binomiale – Guida alle distribuzioni</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,7 +131,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/binomiale.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuzione Binomiale</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/binomiale.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuzione Binomiale</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
@@ -142,7 +142,7 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Distribution Explorer</a> 
+      <a href="../">Guida alle distribuzioni</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ccaudek/distribution-explorer" title="Eseguire il codice" class="quarto-navigation-tool px-1" aria-label="Eseguire il codice"><i class="bi bi-github"></i></a>
 </div>
@@ -163,14 +163,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../pages/key_concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Revisione dei concetti fondamentali</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../pages/bernoulli.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distribuzione di Bernoulli</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuzione di Bernoulli</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/binomiale.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuzione Binomiale</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuzione Binomiale</span></span></a>
   </div>
 </li>
     </ul>
@@ -181,20 +187,20 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Indice</h2>
    
   <ul>
-<li><a href="#notazione" id="toc-notazione" class="nav-link active" data-scroll-target="#notazione"><span class="header-section-number">3.1</span> Notazione</a></li>
-  <li><a href="#storia" id="toc-storia" class="nav-link" data-scroll-target="#storia"><span class="header-section-number">3.2</span> Storia</a></li>
-  <li><a href="#esempi" id="toc-esempi" class="nav-link" data-scroll-target="#esempi"><span class="header-section-number">3.3</span> Esempi</a></li>
-  <li><a href="#parametri" id="toc-parametri" class="nav-link" data-scroll-target="#parametri"><span class="header-section-number">3.4</span> Parametri</a></li>
-  <li><a href="#supporto" id="toc-supporto" class="nav-link" data-scroll-target="#supporto"><span class="header-section-number">3.5</span> Supporto</a></li>
-  <li><a href="#funzione-di-massa-di-probabilit%C3%A0" id="toc-funzione-di-massa-di-probabilità" class="nav-link" data-scroll-target="#funzione-di-massa-di-probabilit%C3%A0"><span class="header-section-number">3.6</span> Funzione di massa di probabilità</a></li>
-  <li><a href="#momenti" id="toc-momenti" class="nav-link" data-scroll-target="#momenti"><span class="header-section-number">3.7</span> Momenti</a></li>
-  <li><a href="#funzioni-per-la-distribuzione-binomiale-in-r" id="toc-funzioni-per-la-distribuzione-binomiale-in-r" class="nav-link" data-scroll-target="#funzioni-per-la-distribuzione-binomiale-in-r"><span class="header-section-number">3.8</span> Funzioni per la distribuzione binomiale in R</a></li>
+<li><a href="#notazione" id="toc-notazione" class="nav-link active" data-scroll-target="#notazione"><span class="header-section-number">4.1</span> Notazione</a></li>
+  <li><a href="#storia" id="toc-storia" class="nav-link" data-scroll-target="#storia"><span class="header-section-number">4.2</span> Storia</a></li>
+  <li><a href="#esempi" id="toc-esempi" class="nav-link" data-scroll-target="#esempi"><span class="header-section-number">4.3</span> Esempi</a></li>
+  <li><a href="#parametri" id="toc-parametri" class="nav-link" data-scroll-target="#parametri"><span class="header-section-number">4.4</span> Parametri</a></li>
+  <li><a href="#supporto" id="toc-supporto" class="nav-link" data-scroll-target="#supporto"><span class="header-section-number">4.5</span> Supporto</a></li>
+  <li><a href="#funzione-di-massa-di-probabilit%C3%A0" id="toc-funzione-di-massa-di-probabilità" class="nav-link" data-scroll-target="#funzione-di-massa-di-probabilit%C3%A0"><span class="header-section-number">4.6</span> Funzione di massa di probabilità</a></li>
+  <li><a href="#momenti" id="toc-momenti" class="nav-link" data-scroll-target="#momenti"><span class="header-section-number">4.7</span> Momenti</a></li>
+  <li><a href="#funzioni-per-la-distribuzione-binomiale-in-r" id="toc-funzioni-per-la-distribuzione-binomiale-in-r" class="nav-link" data-scroll-target="#funzioni-per-la-distribuzione-binomiale-in-r"><span class="header-section-number">4.8</span> Funzioni per la distribuzione binomiale in R</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuzione Binomiale</span>
+<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuzione Binomiale</span>
 </h1>
 </div>
 
@@ -209,37 +215,37 @@ window.Quarto = {
   
 
 
-</header><section id="notazione" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="notazione">
-<span class="header-section-number">3.1</span> Notazione</h2>
+</header><section id="notazione" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="notazione">
+<span class="header-section-number">4.1</span> Notazione</h2>
 <p><span class="math inline">\(X \sim \mathcal{Binom}(N, p)\)</span>, oppure, in maniera equivalente, <span class="math inline">\(\mathcal{Binom}(X \mid N, p)\)</span>, dove <span class="math inline">\(N\)</span> è il numero di prove Bernoulliane indipendenti e <span class="math inline">\(p\)</span> è la probabilità di successo in ciascuna prova.</p>
-</section><section id="storia" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="storia">
-<span class="header-section-number">3.2</span> Storia</h2>
+</section><section id="storia" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="storia">
+<span class="header-section-number">4.2</span> Storia</h2>
 <p>La distribuzione binomiale è una distribuzione di probabilità discreta che modella il numero di successi <span class="math inline">\(y\)</span> in un numero fissato <span class="math inline">\(n\)</span> di prove di Bernoulli indipendenti e identiche, dove ciascuna prova ha solo due esiti possibili: “successo” (rappresentato da “1”) con probabilità <span class="math inline">\(p\)</span> o “insuccesso” (rappresentato da “0”) con probabilità <span class="math inline">\(1 - p\)</span>. La notazione utilizzata è la seguente:</p>
 <p><span class="math display">\[
 Y \sim \mathcal{Binom}(N, p).
 \]</span></p>
 <div id="def-" class="theorem definition">
-<p><span class="theorem-title"><strong>Definizione 3.1</strong></span> La distribuzione binomiale descrive la probabilità di osservare esattamente <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove di Bernoulli indipendenti:</p>
+<p><span class="theorem-title"><strong>Definizione 4.1</strong></span> La distribuzione binomiale descrive la probabilità di osservare esattamente <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove di Bernoulli indipendenti:</p>
 <p><span id="eq-binom-distr"><span class="math display">\[
 P(Y = y) = \binom{N}{y} p^{y} (1 - p)^{N - y} = \frac{N!}{y!(N - y)!} p^{y} (1 - p)^{N - y},
-\tag{3.1}\]</span></span></p>
+\tag{4.1}\]</span></span></p>
 <p>dove <span class="math inline">\(\binom{N}{y}\)</span>, noto come <em>coefficiente binomiale</em>, rappresenta il numero di modi possibili per ottenere <span class="math inline">\(y\)</span> successi in <span class="math inline">\(N\)</span> prove, e <span class="math inline">\(p\)</span> è la probabilità di successo in ciascuna prova.</p>
 </div>
 <p>Una caratteristica interessante della distribuzione binomiale è la sua <em>proprietà di riproducibilità</em>: se due variabili casuali indipendenti, <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_2\)</span>, seguono entrambe distribuzioni binomiali con lo stesso parametro <span class="math inline">\(p\)</span>, ma con un diverso numero di prove (<span class="math inline">\(N_1\)</span> e <span class="math inline">\(N_2\)</span>), la loro somma, <span class="math inline">\(y = y_1 + y_2\)</span>, sarà ancora distribuita binomialmente, con parametri <span class="math inline">\(N_1 + N_2\)</span> e <span class="math inline">\(p\)</span>.</p>
-</section><section id="esempi" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="esempi">
-<span class="header-section-number">3.3</span> Esempi</h2>
+</section><section id="esempi" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="esempi">
+<span class="header-section-number">4.3</span> Esempi</h2>
 <p>La distribuzione binomiale si presta bene a esempi classici come il lancio ripetuto di una moneta o l’estrazione di biglie da un’urna. Ad esempio, nel caso del lancio di una moneta, questa distribuzione descrive la probabilità di ottenere un determinato numero di “teste” in un certo numero di lanci, con ogni lancio che segue una distribuzione di Bernoulli con probabilità di successo <span class="math inline">\(p\)</span>.</p>
-</section><section id="parametri" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="parametri">
-<span class="header-section-number">3.4</span> Parametri</h2>
+</section><section id="parametri" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="parametri">
+<span class="header-section-number">4.4</span> Parametri</h2>
 <p>I parametri coinvolti sono due: <span class="math inline">\(N\)</span>, il numero di prove di Bernoulli, e <span class="math inline">\(p\)</span>, la probabilità di successo per ogni singola prova.</p>
-</section><section id="supporto" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="supporto">
-<span class="header-section-number">3.5</span> Supporto</h2>
+</section><section id="supporto" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="supporto">
+<span class="header-section-number">4.5</span> Supporto</h2>
 <p>La distribuzione Binomiale ha come supporto l’insieme dei numeri interi non negativi minori o uguali a <span class="math inline">\(N\)</span>.</p>
-</section><section id="funzione-di-massa-di-probabilità" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="funzione-di-massa-di-probabilità">
-<span class="header-section-number">3.6</span> Funzione di massa di probabilità</h2>
+</section><section id="funzione-di-massa-di-probabilità" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="funzione-di-massa-di-probabilità">
+<span class="header-section-number">4.6</span> Funzione di massa di probabilità</h2>
 <p><span id="eq-binomial-distribution"><span class="math display">\[
 P(Y = y) = \binom{N}{y} p^y (1 - p)^{N - y}.
-\tag{3.2}\]</span></span></p>
+\tag{4.2}\]</span></span></p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -271,8 +277,8 @@ P(Y = y) = \binom{n}{y} p^y (1 - p)^{n - y}.
 </div>
 </div>
 </div>
-</section><section id="momenti" class="level2" data-number="3.7"><h2 data-number="3.7" class="anchored" data-anchor-id="momenti">
-<span class="header-section-number">3.7</span> Momenti</h2>
+</section><section id="momenti" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="momenti">
+<span class="header-section-number">4.7</span> Momenti</h2>
 <p>Valore atteso: <span class="math inline">\(\mathbb{E}(y) = N p\)</span>.</p>
 <p>Varianza: <span class="math inline">\(\mathbb{V}(y) = N p (1 - p)\)</span>.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -406,8 +412,8 @@ Esempi
 </div>
 </div>
 </div>
-</section><section id="funzioni-per-la-distribuzione-binomiale-in-r" class="level2" data-number="3.8"><h2 data-number="3.8" class="anchored" data-anchor-id="funzioni-per-la-distribuzione-binomiale-in-r">
-<span class="header-section-number">3.8</span> Funzioni per la distribuzione binomiale in R</h2>
+</section><section id="funzioni-per-la-distribuzione-binomiale-in-r" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="funzioni-per-la-distribuzione-binomiale-in-r">
+<span class="header-section-number">4.8</span> Funzioni per la distribuzione binomiale in R</h2>
 <p><em>(Y ~ Bin(n, p))</em></p>
 <table class="caption-top table">
 <colgroup>
@@ -681,7 +687,7 @@ P(Y = 2) = \binom{4}{2} \cdot 0.2^2 \cdot (1 - 0.2)^{2} = 0.1536.
 </div>
 </div>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Esempio 3.1</strong></span> Supponiamo di lanciare una <strong>moneta equa</strong> (cioè con probabilità <span class="math inline">\(p = 0.5\)</span> di ottenere testa) <strong>5 volte</strong>. Vogliamo calcolare la probabilità di ottenere <strong>almeno 2 teste</strong>, ovvero:</p>
+<p><span class="theorem-title"><strong>Esempio 4.1</strong></span> Supponiamo di lanciare una <strong>moneta equa</strong> (cioè con probabilità <span class="math inline">\(p = 0.5\)</span> di ottenere testa) <strong>5 volte</strong>. Vogliamo calcolare la probabilità di ottenere <strong>almeno 2 teste</strong>, ovvero:</p>
 <p><span class="math display">\[
 P(Y \geq 2) = P(Y = 2) + P(Y = 3) + P(Y = 4) + P(Y = 5).
 \]</span></p>
@@ -791,7 +797,7 @@ P(Y \leq 2) = 0.5 &lt; 0.60.
 <li>il valore calcolato è <code>3</code>, quindi con <strong>al massimo 3 successi</strong>, la probabilità cumulativa supera il 60%.</li>
 </ul>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Esempio 3.2</strong></span> Consideriamo una <strong>distribuzione binomiale</strong> con <span class="math inline">\(n = 10\)</span> prove e probabilità di successo <span class="math inline">\(p = 0.2\)</span>. Supponiamo di voler calcolare la probabilità di ottenere <strong>al massimo 4 successi</strong>. In termini matematici, vogliamo calcolare:</p>
+<p><span class="theorem-title"><strong>Esempio 4.2</strong></span> Consideriamo una <strong>distribuzione binomiale</strong> con <span class="math inline">\(n = 10\)</span> prove e probabilità di successo <span class="math inline">\(p = 0.2\)</span>. Supponiamo di voler calcolare la probabilità di ottenere <strong>al massimo 4 successi</strong>. In termini matematici, vogliamo calcolare:</p>
 <p><span class="math display">\[
 P(Y \leq 4) .
 \]</span></p>
@@ -1236,7 +1242,7 @@ P(Y \leq 4) .
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../pages/bernoulli.html" class="pagination-link" aria-label="Distribuzione di Bernoulli">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distribuzione di Bernoulli</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuzione di Bernoulli</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
