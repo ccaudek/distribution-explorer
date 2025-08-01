@@ -1,0 +1,153 @@
+# Revisione dei concetti fondamentali
+
+
+## Che cos'è una distribuzione di probabilità?
+
+Una distribuzione di probabilità specifica le probabilità associate a tutti i possibili esiti in uno spazio campionario.
+Ad esempio, se lo spazio campionario è costituito da numeri interi non negativi (0, 1, 2, …), una distribuzione di probabilità assegna a ciascun valore una probabilità di essere osservato.
+
+
+## Funzioni di massa e di densità di probabilità (PMF e PDF)
+
+Le distribuzioni di probabilità possono essere definite in modi diversi a seconda del tipo di variabile:
+
+* **Variabili discrete**: si utilizzano le **funzioni di massa di probabilità (PMF)**. La PMF $f(x)$ assegna una probabilità a ciascun valore discreto. La somma delle probabilità su tutti i valori possibili è uguale a 1:
+
+  $$
+  \sum_x f(x) = 1
+  $$
+
+* **Variabili continue**: la probabilità di osservare esattamente un valore reale specifico è zero. In questo caso, si utilizza una **funzione di densità di probabilità (PDF)**, tale che la probabilità che la variabile $x$ assuma un valore in un intervallo $[a, b]$ è data da:
+
+  $$
+  P(a \leq x \leq b) = \int_a^b f(x) \, dx
+  $$
+
+
+## Funzione di distribuzione cumulativa (CDF)
+
+La **funzione di distribuzione cumulativa (CDF)**, indicata con $F(x)$, rappresenta la probabilità che la variabile casuale assuma un valore minore o uguale a $x$:
+
+$$
+F(x) = P(X \leq x)
+$$
+
+* Per variabili discrete, la CDF è data dalla somma cumulativa della PMF:
+
+  $$
+  F(k) = \sum_{k' = k_{\text{min}}}^k f(k')
+  $$
+
+* Per variabili continue, la CDF si ottiene integrando la PDF:
+
+  $$
+  F(x) = \int_{-\infty}^x f(t) \, dt
+  $$
+
+La CDF è una funzione crescente (monotona) che va da 0 a 1.
+
+
+## Funzione quantile
+
+La **funzione quantile** è l’inversa della CDF. Per un dato valore $p \in [0,1]$, il quantile $F^{-1}(p)$ restituisce il valore di $x$ tale che $P(X \leq x) = p$.
+È anche chiamata funzione percentile, soprattutto quando $p$ è espresso in percentuale (es. 0.75 = 75° percentile).
+
+
+## Come si rappresentano graficamente PDF, PMF e CDF
+
+* **PDF (variabili continue)**: rappresentata come una curva continua, solo sull'intervallo dove la distribuzione è definita.
+
+* **PMF (variabili discrete)**: rappresentata con punti e linee verticali che collegano ciascun punto all’asse delle ascisse.
+
+* **CDF di variabili continue**: è una curva continua crescente da 0 a 1.
+
+* **CDF di variabili discrete**: è rappresentata a "gradini" (staircase). Anche se può sembrare multivalore in corrispondenza dei salti verticali, non lo è: ogni salto rappresenta l’incremento di probabilità.
+
+
+## Parametrizzazione
+
+Le distribuzioni spesso dipendono da uno o più **parametri**. Ad esempio, la distribuzione Normale può essere parametrizzata con:
+
+* **Media** $\mu$
+* **Deviazione standard** $\sigma$
+* oppure con **precisione** $\tau = 1/\sigma$
+
+Nel contesto di questo sito (e del linguaggio Stan), adottiamo le stesse parametrizzazioni utilizzate in Stan.
+
+
+## Parametri di posizione, scala e forma
+
+Alcuni parametri svolgono ruoli specifici:
+
+* **Parametro di posizione**: sposta la distribuzione lungo l’asse orizzontale (es. la media $\mu$ della Normale).
+* **Parametro di scala**: dilata o comprime la distribuzione lungo l’asse orizzontale. È sempre positivo (es. $\sigma$, la deviazione standard).
+* **Parametro di forma**: modifica la forma della distribuzione (simmetria, code, ecc.). Non è né di posizione né di scala.
+
+Ad esempio, nella distribuzione Normale:
+
+$$
+f(x) \propto \exp\left( - \frac{(x - \mu)^2}{2\sigma^2} \right)
+$$
+
+* $\mu$: posizione
+* $\sigma$: scala
+* La Normale **non** ha un parametro di forma
+
+Nel manuale e nel sito, useremo i termini **posizione** e **scala** al posto di "media" e "deviazione standard", per maggiore chiarezza e coerenza terminologica.
+
+
+## Momenti
+
+I **momenti** di una distribuzione si riferiscono a medie pesate di potenze della variabile. Prima si definisce l’**aspettativa** di una funzione $g(x)$:
+
+* Per variabili continue:
+
+  $$
+  \mathbb{E}[g(x)] = \int_{-\infty}^{\infty} g(x) f(x) \, dx
+  $$
+
+* Per variabili discrete:
+
+  $$
+  \mathbb{E}[g(x)] = \sum_i g(x_i) f(x_i)
+  $$
+
+Il **momento di ordine n** è $\mathbb{E}[x^n]$.
+Il **momento centrale di ordine n** è $\mathbb{E}[(x - \mu)^n]$, dove $\mu$ è la media.
+I due momenti più importanti sono:
+
+* Primo momento: la **media** $\mu$
+* Secondo momento centrale: la **varianza** $\mathbb{V}[x]$
+
+Per ogni distribuzione nel sito, verranno indicati media e varianza, se esistono.
+
+
+## Concetti utili per la generazione dei dati
+
+
+### Prova di Bernoulli
+
+Una **prova di Bernoulli** è un esperimento con due possibili esiti: successo (1) o fallimento (0).
+I termini “successo” e “fallimento” non implicano giudizi di valore, ma sono solo etichette per distinguere gli esiti.
+
+
+### Processo di Poisson
+
+Un **processo di Poisson** descrive l’occorrenza di eventi rari nel tempo.
+Gli eventi si verificano con un certo **tasso medio** $\lambda$, e l’intervallo tra un evento e l’altro è casuale e indipendente.
+Non esiste "memoria" degli eventi precedenti: il tempo di attesa tra eventi è distribuito in modo esponenziale.
+
+
+### Distribuzioni multivariate
+
+Finora ci siamo occupati di distribuzioni **univariate**, cioè per una sola variabile casuale.
+Una **distribuzione multivariata** riguarda due o più variabili casuali congiuntamente.
+
+Ad esempio, per due variabili $X$ e $Y$, la funzione di distribuzione cumulativa congiunta è:
+
+$$
+F(x, y) = P(X \leq x, Y \leq y)
+$$
+
+Si possono combinare variabili discrete e continue nella stessa distribuzione multivariata.
+

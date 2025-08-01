@@ -1,0 +1,41 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Guida alle distribuzioni"
+  author: "Corrado Caudek" # È buona norma specificare l'autore nel tipo 'book'
+  date: "last-modified" # Utile per avere la data di ultima modifica
+  reader-mode: false # Ottima funzionalità per i libri
+  search: true # Abilita la barra di ricerca
+  repo-url: https://github.com/ccaudek/distribution-explorer 
+  # repo-actions: [source, issue] # Utile per i lettori
+  site-url: https://ccaudek.github.io/distribution-explorer/ # L'URL del tuo libro pubblicato
+  page-footer:
+    center: "© 2025 Corrado Caudek"
+
+  chapters:
+    - index.qmd
+    - pages/key_concepts.qmd
+    - pages/bernoulli.qmd
+    - pages/binomiale.qmd
+    # - pages/normal.qmd
+    # - pages/beta.qmd
+    # - pages/exponential.qmd
+    # - pages/chisq.qmd
+
+lang: it
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    # Aggiungo alcune opzioni comuni e utili per i libri HTML
+    number-sections: true # Numera automaticamente le sezioni
+    link-external-icon: true # Icona per link esterni
+    link-external-newwindow: true # Apre link esterni in una nuova finestra
+    code-copy: hover # Permette di copiare il codice
+    code-link: true # Link ai sorgenti del codice
+    code-overflow: scroll # Gestisce il overflow del codice
+    callout-appearance: minimal # Stile dei callout (blocchi informativi)

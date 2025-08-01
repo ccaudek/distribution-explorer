@@ -1,0 +1,163 @@
+# Distribuzione di Bernoulli
+
+```{r}
+#| echo: false
+here::here("code", "_common.R") |> source()
+```
+
+## Notazione
+
+$X \sim \mathcal{Bern}(p)$, o in maniera equivalente $\mathcal{Bern}(X \mid p)$.
+
+
+## Storia
+
+In statistica, un esperimento che ammette solo due esiti possibili è modellato con la cosiddetta *prova Bernoulliana*.
+Un esempio classico è il lancio di una moneta, che può dare come risultato "testa" o "croce".
+
+::: {#def-}
+Una variabile casuale $X$ che assume valori in $\{0, 1\}$ è detta *variabile di Bernoulli*. 
+:::
+
+
+## Esempi
+
+La distribuzione di Bernoulli modella fenomeni binari come risposta corretta / errata, scelta sì / no, esito positivo / negativo, presenza / assenza di un sintomo.
+
+
+## Parametri
+
+Un solo parametro: $p \in [0,1]$, probabilità di successo.
+
+
+## Supporto
+
+Il supporto della distribuzione di Bernoulli è l’insieme discreto:
+
+$$
+\mathcal{X} = \{0, 1\} .
+$$
+
+## Funzione di massa di probabilità
+
+$$
+P(X \mid p) =
+  \begin{cases}
+    p     & \text{se $X = 1$ (successo)}, \\
+    1 - p & \text{se $X = 0$ (insuccesso)},
+  \end{cases}
+$$
+
+dove $0 \leq p \leq 1$. Il parametro $p$ rappresenta la probabilità di "successo" ($X = 1$), mentre $1 - p$ è la probabilità di "insuccesso" ($X = 0$).
+
+
+## Momenti
+
+Valore atteso: $\mathbb{E}(X) = p$.
+
+Varianza: $\mathbb{V}(X) = p(1 - p)$.
+
+
+::: {.callout-note collapse="true"}
+## Dimostrazione
+
+$$
+  \begin{aligned}
+\mathbb{E}(X) &= 0 \cdot P(X=0) + 1 \cdot P(X=1) = p, \\
+\mathbb{V}(X) &= (0 - p)^2 \cdot (1 - p) + (1 - p)^2 \cdot p = p(1 - p).
+\end{aligned}
+$$
+
+:::
+
+
+## Funzioni per la distribuzione di Bernoulli in R
+
+| Tipo di funzione                     | Comando R & Formula                     | Note                                                     |
+| :----------------------------------- | :-------------------------------------- | :------------------------------------------------------- |
+| **Densità di probabilità (PMF)**     | `dbinom(x, size = 1, prob = p)`         | Calcola $P(X = x)$ per $x \in \{0,1\}$                   |
+| **Probabilità cumulativa (CDF)**     | `pbinom(x, size = 1, prob = p)`         | Calcola $P(X \leq x)$                                    |
+| **Probabilità della coda superiore** | `1 - pbinom(x - 1, size = 1, prob = p)` | Calcola $P(X \geq x)$                                    |
+| **Quantile (inversa della CDF)**     | `qbinom(q, size = 1, prob = p)`         | Trova il valore minimo $x$ tale che $P(X \leq x) \geq q$ |
+| **Generazione di numeri casuali**    | `rbinom(N, size = 1, prob = p)`         | Genera $N$ osservazioni da una Bernoulli($p$)            |
+
+Note:
+
+1. Nella distribuzione Bernoulliana si pone `size = 1` (una sola prova).
+2. `p` rappresenta la probabilità di successo (cioè $X = 1$).
+3. Per $P(X > 0)$, usare `1 - pbinom(0, size = 1, prob = p)`.
+4. Gli intervalli non sono rilevanti, poiché $X$ può assumere solo i valori 0 e 1.
+
+
+::: {.callout-note collapse="true"}
+
+## Esempi
+
+1. Calcolare la probabilità di successo $P(X = 1)$, con $p = 0.3$:
+
+```{r}
+dbinom(1, size = 1, prob = 0.3)
+```
+
+2. Calcolare la probabilità cumulativa $P(X \leq 0)$, cioè $P(X = 0)$:
+
+```{r}
+pbinom(0, size = 1, prob = 0.3)
+```
+
+3. Calcolare il quantile associato al 90° percentile:
+
+```{r}
+qbinom(0.9, size = 1, prob = 0.3)
+```
+
+4. Generare un campione di 20 osservazioni da una Bernoulli con $p = 0.3$:
+
+```{r}
+rbinom(20, size = 1, prob = 0.3)
+```
+
+:::
+
+
+::: {.callout-note collapse="true"}
+## Approfondimento
+
+### Incertezza massima {.unnumbered}
+
+La varianza è massima quando \$p = 0.5\$, cioè quando l’incertezza è maggiore (successo e insuccesso sono equiprobabili).
+
+```{r}
+p <- seq(0, 1, length.out = 100)
+variance <- p * (1 - p)
+
+ggplot(data.frame(p, Variance = variance), aes(x = p, y = Variance)) +
+  geom_line(color = okabe_ito_palette[4], linewidth = 1.2) +
+  labs(
+    x = expression(p),
+    y = "Varianza",
+    title = "Varianza in funzione di p"
+  )
+```
+
+::: {#exm-}
+Nel caso del lancio di una moneta equilibrata, la variabile di Bernoulli assume i valori $0$ e $1$ con uguale probabilità di $\frac{1}{2}$. Pertanto, la funzione di massa di probabilità assegna una probabilità di $\frac{1}{2}$ sia per $X = 0$ che per $X = 1$, mentre la funzione di distribuzione cumulativa risulta essere $\frac{1}{2}$ per $X = 0$ e $1$ per $X = 1$.
+
+Generiamo dei valori casuali dalla distribuzione di Bernoulli. Iniziamo con un singolo valore:
+
+```{r}
+# Probabilità di successo
+p <- 0.5
+
+# Genera un singolo valore
+bernoulli_sample <- rbinom(n = 1, size = 1, prob = p)
+print(bernoulli_sample)
+
+# Genera un campione di 10 valori
+bernoulli_sample <- rbinom(n = 10, size = 1, prob = p)
+print(bernoulli_sample)
+```
+:::
+
+:::
+

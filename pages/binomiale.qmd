@@ -1,0 +1,617 @@
+# Distribuzione Binomiale
+
+```{r}
+#| echo: false
+here::here("code", "_common.R") |> 
+  source()
+```
+
+
+## Notazione
+
+$X \sim \mathcal{Binom}(N, p)$, oppure, in maniera equivalente, $\mathcal{Binom}(X \mid N, p)$, dove $N$ è il numero di prove Bernoulliane indipendenti e $p$ è la probabilità di successo in ciascuna prova.
+
+
+## Storia
+
+La distribuzione binomiale è una distribuzione di probabilità discreta che modella il numero di successi $y$ in un numero fissato $n$ di prove di Bernoulli indipendenti e identiche, dove ciascuna prova ha solo due esiti possibili: "successo" (rappresentato da "1") con probabilità $p$ o "insuccesso" (rappresentato da "0") con probabilità $1 - p$. La notazione utilizzata è la seguente:
+
+$$
+Y \sim \mathcal{Binom}(N, p).
+$$
+
+::: {#def-}
+La distribuzione binomiale descrive la probabilità di osservare esattamente $y$ successi in $n$ prove di Bernoulli indipendenti:
+
+$$
+P(Y = y) = \binom{N}{y} p^{y} (1 - p)^{N - y} = \frac{N!}{y!(N - y)!} p^{y} (1 - p)^{N - y},
+$$ {#eq-binom-distr}
+
+dove $\binom{N}{y}$, noto come *coefficiente binomiale*, rappresenta il numero di modi possibili per ottenere $y$ successi in $N$ prove, e $p$ è la probabilità di successo in ciascuna prova.
+:::
+
+Una caratteristica interessante della distribuzione binomiale è la sua *proprietà di riproducibilità*: se due variabili casuali indipendenti, $y_1$ e $y_2$, seguono entrambe distribuzioni binomiali con lo stesso parametro $p$, ma con un diverso numero di prove ($N_1$ e $N_2$), la loro somma, $y = y_1 + y_2$, sarà ancora distribuita binomialmente, con parametri $N_1 + N_2$ e $p$.
+
+
+## Esempi
+
+La distribuzione binomiale si presta bene a esempi classici come il lancio ripetuto di una moneta o l'estrazione di biglie da un'urna. Ad esempio, nel caso del lancio di una moneta, questa distribuzione descrive la probabilità di ottenere un determinato numero di "teste" in un certo numero di lanci, con ogni lancio che segue una distribuzione di Bernoulli con probabilità di successo $p$.
+
+
+## Parametri
+
+I parametri coinvolti sono due: $N$, il numero di prove di Bernoulli, e $p$, la probabilità di successo per ogni singola prova.
+
+
+## Supporto
+
+La distribuzione Binomiale ha come supporto l'insieme dei numeri interi non negativi minori o uguali a $N$.
+
+
+## Funzione di massa di probabilità
+
+$$
+P(Y = y) = \binom{N}{y} p^y (1 - p)^{N - y}.
+$$ {#eq-binomial-distribution}
+
+
+::: {.callout-note collapse="true"}
+## Dimostrazione
+
+Per chiarire il calcolo delle probabilità nella **distribuzione binomiale**, consideriamo una serie di prove di **Bernoulli**. Supponiamo di avere $n$ prove indipendenti, ciascuna con probabilità $p$ di successo, e di osservare esattamente $y$ successi.
+
+Una possibile configurazione dei risultati può essere rappresentata come:
+
+$$
+\overbrace{SS\dots S}^\text{$y$ successi} \, \overbrace{II\dots I}^\text{$n - y$ insuccessi}
+$$
+
+La probabilità di ottenere **esattamente $y$ successi in una sequenza specifica** (cioè in un ordine fissato) è:
+
+$$
+p^y \cdot (1 - p)^{n - y},
+$$
+
+dove $p^y$ è la probabilità dei $y$ successi e $(1 - p)^{n - y}$ quella dei $n - y$ insuccessi.
+
+Tuttavia, ciò che ci interessa è la **probabilità complessiva** di ottenere $y$ successi in *qualsiasi ordine*. In altre parole, vogliamo calcolare la probabilità dell'**unione** di tutte le possibili sequenze di $n$ prove che contengono esattamente $y$ successi.
+
+Il numero di tali sequenze è dato dal **coefficiente binomiale** $\binom{n}{y}$, che rappresenta il numero di modi diversi in cui possiamo scegliere le $y$ posizioni dei successi tra le $n$ prove.
+
+Moltiplicando la probabilità di una singola sequenza per il numero totale di sequenze possibili, otteniamo la **funzione di probabilità della distribuzione binomiale**:
+
+$$
+P(Y = y) = \binom{n}{y} p^y (1 - p)^{n - y}.
+$$
+:::
+
+
+## Momenti
+
+Valore atteso: $\mathbb{E}(y) = N p$.
+
+Varianza: $\mathbb{V}(y) = N p (1 - p)$.
+
+::: {.callout-note collapse="true"}
+## Dimostrazione
+
+La variabile $Y$ rappresenta il numero di successi in $n$ prove di Bernoulli indipendenti. Possiamo scriverla come somma di $n$ variabili casuali indipendenti:
+
+$$
+Y = Y_1 + Y_2 + \cdots + Y_n,
+$$
+
+dove ciascuna $Y_i \sim \text{Bernoulli}(p)$, cioè:
+
+$$
+Y_i =
+\begin{cases}
+1 & \text{con probabilità } p \\
+0 & \text{con probabilità } 1 - p
+\end{cases}
+$$
+
+**Valore atteso di $Y_i$.**
+
+Per definizione del valore atteso:
+
+$$
+\mathbb{E}(Y_i) = 1 \cdot p + 0 \cdot (1 - p) = p.
+$$
+
+**Valore atteso di $Y_i^2$.**
+
+Poiché $Y_i$ assume solo i valori 0 e 1, si ha $Y_i^2 = Y_i$. Quindi:
+
+$$
+\mathbb{E}(Y_i^2) = \mathbb{E}(Y_i) = p.
+$$
+
+La **varianza** di una variabile casuale si definisce come:
+
+$$
+\operatorname{Var}(Y_i) = \mathbb{E}(Y_i^2) - [\mathbb{E}(Y_i)]^2.
+$$
+
+Sostituendo i valori trovati sopra:
+
+$$
+\operatorname{Var}(Y_i) = p - p^2 = p(1 - p).
+$$
+
+Ricordiamo che $Y = \sum_{i=1}^{n} Y_i$ e che le $Y_i$ sono **indipendenti**. Una proprietà fondamentale della varianza è che se $Z_1, \dots, Z_n$ sono indipendenti:
+
+$$
+\operatorname{Var}(Z_1 + \cdots + Z_n) = \operatorname{Var}(Z_1) + \cdots + \operatorname{Var}(Z_n).
+$$
+
+Applichiamola al nostro caso:
+
+$$
+\operatorname{Var}(Y) = \sum_{i=1}^{n} \operatorname{Var}(Y_i).
+$$
+
+Poiché tutte le $Y_i$ hanno la stessa varianza $p(1 - p)$, la somma diventa:
+
+$$
+\operatorname{Var}(Y) = n \cdot p(1 - p).
+$$
+
+Abbiamo dimostrato da definizione che, se $Y \sim \text{Bin}(n, p)$, allora:
+
+$$
+\operatorname{Var}(Y) = n \cdot p \cdot (1 - p).
+$$
+
+Questa formula descrive la dispersione attesa nel numero di successi su $n$ prove indipendenti, ciascuna con probabilità di successo $p$.
+:::
+
+
+::: {.callout-note collapse="true"}
+## Esempi
+
+Supponiamo di lanciare 4 volte una moneta truccata che ha una probabilità di successo (es. ottenere testa) pari a $p = 0.2$.
+
+Vogliamo calcolare:
+
+- la media attesa del numero di teste,
+- la varianza,
+- e la deviazione standard.
+
+1. Calcolo del valore atteso (media):
+
+$$
+\mu = n \cdot p = 4 \cdot 0.2 = 0.8 .
+$$
+
+Quindi, *in media*, ci aspettiamo di ottenere 0.8 teste ogni 4 lanci (cioè meno di 1, ma ricordiamo che si tratta di una media).
+
+2. Calcolo della varianza:
+
+$$
+\text{Varianza} = n \cdot p \cdot (1 - p) = 4 \cdot 0.2 \cdot 0.8 = 0.64 .
+$$
+
+3. Calcolo della deviazione standard:
+
+$$
+\sigma = \sqrt{0.64} \approx 0.8 .
+$$
+
+La deviazione standard ci dà un'idea della *variabilità* dei risultati: in questo caso, i valori osservati (numero di teste su 4 lanci) si discostano dalla media di circa 0.8 in media.
+
+
+**Verifica con una simulazione in R.**
+
+Per vedere se i calcoli teorici dell'esempio precedente funzionano anche nella pratica, possiamo *simulare* l’esperimento in R: lanciamo 4 monete, ma lo facciamo *tantissime volte* (ad esempio 1 milione) e calcoliamo la media e la varianza dei risultati ottenuti.
+
+```{r}
+set.seed(42)
+
+# Generiamo 1 milione di esperimenti: 4 lanci con probabilità di successo 0.2
+x <- rbinom(n = 1e6, size = 4, prob = 0.2)
+
+# Calcoliamo la media empirica
+mean(x)
+# [1] circa 0.8
+
+# Calcoliamo la varianza empirica
+var(x)
+# [1] circa 0.64
+```
+
+Come possiamo vedere, i risultati ottenuti dalla simulazione sono *molto vicini ai valori teorici*: la media è circa $\mu = 0.8$ e la varianza circa $0.64$, proprio come previsto dalle formule.
+
+Questo non solo conferma che le formule per media e varianza nella distribuzione binomiale sono corrette, ma ci aiuta anche a capire meglio *cosa significano*: 
+
+- il *valore atteso* rappresenta la *media dei risultati* se ripetiamo l'esperimento moltissime volte;  
+- la *varianza* (e la sua radice quadrata, la *deviazione standard*) misura *quanto i risultati si allontanano dalla media*.
+
+La simulazione mostra quindi in modo concreto che *il valore atteso e la varianza descrivono il comportamento "medio" della variabile casuale*, quando viene osservata in un numero molto grande di situazioni. In altre parole, questi concetti non sono solo teorici: ci dicono cosa aspettarci nella pratica, se ripetiamo molte volte lo stesso esperimento.
+:::
+
+
+## Funzioni per la distribuzione binomiale in R
+
+*(Y ~ Bin(n, p))*
+
+| Tipo di funzione                   | Comando R & Formula                     | Note |
+|:----------------------------------|:----------------------------------------|:-----|
+| **Densità di probabilità**        | `dbinom(y, size = n, prob = p)`        | Calcola $P(Y = y)$ |
+| **Probabilità cumulativa (CDF)**  | `pbinom(y, size = n, prob = p)`        | $P(Y \leq y)$ |
+| **Probabilità della coda superiore** | `1 - pbinom(y - 1, size = n, prob = p)` | P(Y ≥ y) |
+| **Probabilità in un intervallo**  | `pbinom(y2, ...) - pbinom(y1, ...)`    | $P(y_1 < Y \leq y_2)$ |
+| **Quantile (inversa CDF)**        | `qbinom(q, size = n, prob = p)`        | Trova y tale che $P(Y \leq y)$ = q |
+| **Generazione di numeri casuali** | `rbinom(N, size = n, prob = p)`        | Simula $N$ valori da Bin(n,p) |
+
+Note:
+
+1. `n` = numero di prove (parametro size in R).
+2. `p` = probabilità di successo.
+3. Per P(Y > y) usare `1 - pbinom(y, ...)`.
+4. Per intervalli aperti: $P(y_1 ≤ Y < y_2)$ = `pbinom(y_2-1, ...) - pbinom(y_1-1, ...)`.
+
+
+::: {.callout-note collapse="true"}
+## Esempi
+
+1. Calcolare la probabilità di esattamente $y = 3$ successi su $n = 5$ prove con $p = 0.5$.
+
+```{r}
+dbinom(3, size = 5, prob = 0.5)
+```
+
+2. Calcolare la probabilità cumulativa $P(Y \leq 3)$.
+   
+```{r}
+pbinom(3, size = 5, prob = 0.5)
+```
+
+3. Calcolare il valore minimo $y$ tale che $P(Y \leq y) \geq 0.9$.
+
+```{r}
+qbinom(0.9, size = 5, prob = 0.5)
+```
+
+4. Generare un campione di 100 numeri casuali da una distribuzione binomiale.
+
+```{r}
+rbinom(100, size = 5, prob = 0.5)
+```
+:::
+
+
+::: {.callout-note collapse="true"}
+## Approfondimenti
+
+### Caso particolare $n = 1$ {.unnumbered}
+
+Ora consideriamo il caso particolare in cui $n = 1$. Quando $n = 1$, il coefficiente binomiale diventa:
+
+$$
+\binom{1}{y} = \frac{1!}{y! (1-y)!}.
+$$
+
+Espandiamo i fattoriali per i due possibili valori di $y$, che può assumere solo 0 o 1 (poiché $y \in \{0, 1, \dots, n\}$).
+
+**Caso 1: $y = 0$**
+
+$$
+\binom{1}{0} = \frac{1!}{0! (1-0)!} = \frac{1}{1 \cdot 1} = 1.
+$$
+
+Quindi, per $y = 0$:
+$$
+P(Y = 0) = \binom{1}{0} p^0 (1-p)^{1-0} = 1 \cdot 1 \cdot (1-p) = 1-p.
+$$
+
+**Caso 2: $y = 1$**
+
+$$
+\binom{1}{1} = \frac{1!}{1! (1-1)!} = \frac{1}{1 \cdot 1} = 1.
+$$
+
+Quindi, per $y = 1$:
+$$
+P(Y = 1) = \binom{1}{1} p^1 (1-p)^{1-1} = 1 \cdot p \cdot 1 = p.
+$$
+
+In conclusione, la PMF per la distribuzione binomiale con $n = 1$ diventa:
+
+$$
+P(Y = y) =
+\begin{cases}
+1-p, & \text{se } y = 0, \\
+p, & \text{se } y = 1.
+\end{cases}
+$$
+
+Questa è esattamente la PMF della distribuzione di Bernoulli con parametro $p$:
+
+$$
+P(Y = y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
+$$ 
+
+Pertanto, la distribuzione binomiale con $n = 1$ è equivalente alla distribuzione di Bernoulli con parametro $p$.
+
+
+### Applicazioni Pratiche della Distribuzione Binomiale {.unnumbered}
+
+Per illustrare l’applicazione della distribuzione binomiale, consideriamo un esempio semplice. Supponiamo di osservare **2 successi su 4 prove di Bernoulli**, dove la probabilità di successo in ogni prova è $p = 0.2$. La probabilità di ottenere esattamente questo risultato si calcola con la formula:
+
+$$
+P(Y = 2) = \binom{4}{2} \cdot 0.2^2 \cdot (1 - 0.2)^{2} = 0.1536.
+$$
+
+In R, questo calcolo si può fare in modo diretto:
+
+```{r}
+# Parametri
+n <- 4
+p <- 0.2
+y <- 2
+
+# Calcolo della probabilità esatta
+prob <- choose(n, y) * p^y * (1 - p)^(n - y)
+print(prob)
+```
+
+In alternativa, possiamo usare la funzione `dbinom()` per ottenere la stessa probabilità:
+
+```{r}
+prob <- dbinom(x = y, size = n, prob = p)
+print(prob)
+```
+
+
+### Visualizzazione della distribuzione di probabilità {.unnumbered}
+
+Possiamo rappresentare graficamente la **distribuzione di massa di probabilità** per tutti i possibili valori di $y$ da $0$ a $n$:
+
+```{r}
+y <- 0:n
+probabilities <- dbinom(y, size = n, prob = p)
+
+df <- data.frame(Successi = y, Probabilità = probabilities)
+
+df |>
+  ggplot(aes(x = Successi, y = Probabilità)) +
+    geom_segment(
+      aes(xend = Successi, yend = 0), lwd = 1.2, 
+      color = okabe_ito_palette[2]
+      ) +
+    geom_point(size = 3, color = okabe_ito_palette[2]) +
+    labs(
+      x = "Numero di successi y",
+      y = "Probabilità",
+      title = paste("Distribuzione binomiale: n =", n, ", p =", p)
+    )
+```
+
+
+#### Generazione di un campione casuale {.unnumbered}
+
+La funzione `rbinom()` permette di generare un campione casuale da una distribuzione binomiale:
+
+```{r}
+set.seed(42)
+samples <- rbinom(n = 30, size = 5, prob = 0.5)
+print(samples)
+```
+
+
+#### Variazione della distribuzione al variare di $p$ {.unnumbered}
+
+Per esplorare l’effetto di diversi valori di $p$ sulla forma della distribuzione, possiamo visualizzare più curve binomiali per $n = 20$ e $p$ variabile:
+
+```{r}
+n <- 20
+p_values <- seq(0.3, 0.9, by = 0.3)
+y <- 0:25
+
+df <- data.frame()
+
+for (p in p_values) {
+  binom_dist <- dbinom(y, size = n, prob = p)
+  df <- rbind(df, data.frame(y = y, Prob = binom_dist, p = factor(p)))
+}
+
+df |>
+  ggplot(aes(x = y, y = Prob, color = p)) +
+    geom_point() +
+    geom_line() +
+    labs(
+      x = "Numero di successi y",
+      y = "Probabilità",
+      title = "Distribuzioni binomiali con diversi valori di p",
+      color = expression(p)
+    )
+```
+
+
+### Funzione di ripartizione cumulativa {.unnumbered}
+
+Possiamo anche rappresentare la **funzione di distribuzione cumulativa** (CDF) per $n = 5$ e $p = 0.5$:
+
+```{r}
+n <- 5
+p <- 0.5
+y <- 0:n
+
+cdf_values <- pbinom(y, size = n, prob = p)
+df <- data.frame(y = y, cdf = cdf_values)
+
+df |>
+  ggplot(aes(x = y, y = cdf)) +
+    geom_line() +
+    geom_point() +
+    geom_hline(
+      yintercept = 1, linetype = "dashed", color = "black", alpha = 0.7
+    ) +
+    labs(
+      title = paste("Funzione di ripartizione: n =", n, ", p =", p),
+      x = "Numero di successi y",
+      y = "Probabilità cumulativa"
+    )
+```
+
+::: {#exm-}
+Supponiamo di lanciare una **moneta equa** (cioè con probabilità $p = 0.5$ di ottenere testa) **5 volte**. Vogliamo calcolare la probabilità di ottenere **almeno 2 teste**, ovvero:
+
+$$
+P(Y \geq 2) = P(Y = 2) + P(Y = 3) + P(Y = 4) + P(Y = 5).
+$$
+
+Possiamo sommare direttamente queste probabilità usando `dbinom()`:
+
+```{r}
+result <- sum(dbinom(2:5, size = 5, prob = 0.5))
+print(result)
+```
+
+Un modo alternativo, più efficiente, consiste nel calcolare il **complemento** della probabilità di ottenere **meno di 2 teste** (cioè 0 o 1):
+
+$$
+P(Y \geq 2) = 1 - P(Y \leq 1)
+$$
+
+In R, possiamo usare la funzione `pbinom()` per calcolare questa probabilità cumulativa:
+
+```{r}
+result <- 1 - pbinom(q = 1, size = 5, prob = 0.5)
+print(result)
+```
+
+Entrambi i metodi restituiscono lo stesso risultato numerico, ma il secondo è spesso preferibile quando $n$ è grande o quando si vuole calcolare una probabilità di coda.
+:::
+
+
+### Quantili di una distribuzione binomiale {.unnumbered}
+
+La funzione `qbinom()` permette di calcolare il **quantile** di una distribuzione binomiale, cioè il **numero minimo di successi** $y$ tale che la probabilità cumulativa $P(Y \leq y)$ sia **maggiore o uguale** a una certa soglia.
+
+Ad esempio, supponiamo di voler sapere **qual è il numero minimo di successi** tale che la probabilità cumulativa sia **almeno 60%**. Possiamo usare:
+
+```{r}
+# Probabilità cumulativa desiderata
+target_probability <- 0.60
+
+# Calcolo del quantile
+result <- qbinom(p = target_probability, size = 5, prob = 0.5)
+print(result)
+```
+
+Il risultato è `3`, il che significa che:
+
+$$
+P(Y \leq 3) = 0.8125 \geq 0.60,
+$$
+
+mentre
+
+$$
+P(Y \leq 2) = 0.5 < 0.60.
+$$
+
+Quindi, servono **almeno 3 successi** per superare la soglia del 60% di probabilità cumulativa.
+
+> `qbinom(p, size, prob)` restituisce il **più piccolo valore di $y$** tale che $P(Y \leq y) \geq p$.
+
+
+#### Rappresentazione grafica del quantile {.unnumbered}
+
+Per visualizzare il comportamento della funzione di ripartizione cumulativa e individuare il quantile per $p = 0.60$, possiamo usare il seguente codice in R:
+
+```{r}
+# Parametri
+n <- 5
+p <- 0.5
+target_probability <- 0.60
+
+# Asse y: numero di successi
+y <- 0:n
+
+# Calcolo dei valori cumulativi
+cdf <- pbinom(y, size = n, prob = p)
+
+# Calcolo del quantile
+q <- qbinom(target_probability, size = n, prob = p)
+
+# Data frame
+df <- data.frame(Successi = y, CDF = cdf)
+
+# Grafico
+df |>
+  ggplot(aes(x = Successi, y = CDF)) +
+  geom_step(direction = "hv", linewidth = 1.1) +
+  geom_point(size = 2) +
+  geom_hline(
+    yintercept = target_probability, linetype = "dashed", color = "red"
+  ) +
+  geom_vline(xintercept = q, linetype = "dotted", color = "blue") +
+  annotate(
+    "text",
+    x = q + 0.4, y = 0.05, label = paste("quantile =", q),
+    color = "blue"
+  ) +
+  annotate(
+    "text",
+    x = 0.5, y = target_probability + 0.05,
+    label = paste("soglia =", target_probability), color = "red"
+  ) +
+  labs(
+    title = paste(
+      "Funzione di ripartizione cumulativa (n =", n, ", p =", p, ")"
+    ),
+    x = "Numero di successi",
+    y = "Probabilità cumulativa"
+  ) +
+  ylim(0, 1.05)
+```
+
+In questo grafico:
+
+- la **linea rossa tratteggiata** rappresenta la soglia di probabilità desiderata (es. 0.60);
+- la **linea blu tratteggiata verticale** indica il quantile corrispondente, cioè il più piccolo valore di $y$ per cui $P(Y \leq y) \geq 0.60$;
+- il valore calcolato è `3`, quindi con **al massimo 3 successi**, la probabilità cumulativa supera il 60%.
+
+
+::: {#exm-}
+Consideriamo una **distribuzione binomiale** con $n = 10$ prove e probabilità di successo $p = 0.2$. Supponiamo di voler calcolare la probabilità di ottenere **al massimo 4 successi**. In termini matematici, vogliamo calcolare:
+
+$$
+P(Y \leq 4) .
+$$
+
+In R, questo si ottiene con la funzione `pbinom()`:
+
+```{r}
+# Calcolo della probabilità cumulativa fino a 4 successi
+p_cumulativa <- pbinom(4, size = 10, prob = 0.2)
+print(p_cumulativa)
+```
+
+Il risultato indica che c'è circa l'**97%** di probabilità di ottenere 4 o meno successi su 10 prove, quando la probabilità di successo in ciascuna prova è 0.2.
+
+Ora facciamo il **passaggio inverso**: immaginiamo di conoscere la probabilità cumulativa (per esempio, 0.97) e vogliamo sapere **quanti successi** bisogna considerare per raggiungere quella probabilità.
+
+Per questo usiamo la funzione `qbinom()`, che ci restituisce il **più piccolo numero di successi $y$ tale che $P(Y \leq y) \geq$ quella probabilità**:
+
+```{r}
+# Calcolo del numero di successi associato alla probabilità cumulativa
+numero_successi <- qbinom(p_cumulativa, size = 10, prob = 0.2)
+print(numero_successi)
+```
+
+Il valore ottenuto sarà `4`, cioè il **minimo numero di successi** per cui la probabilità cumulativa è almeno il 97%.
+
+
+**Riepilogo concetti chiave**:
+
+- `pbinom(y, n, p)` calcola la probabilità di ottenere **al massimo $y$ successi**;
+- `qbinom(prob, n, p)` calcola **il numero minimo di successi** necessari per raggiungere almeno quella probabilità.
+
+In sintesi, `pbinom()` e `qbinom()` sono strumenti complementari: `pbinom` ci dà la probabilità di ottenere fino a un certo numero di successi, mentre `qbinom` ci dice fino a quanti successi possiamo ottenere per raggiungere una certa probabilità. Nell’analisi di una distribuzione binomiale (e di molte altre distribuzioni) queste funzioni aiutano a calcolare e interpretare facilmente probabilità cumulate e quantili in R, rendendo più semplice l’analisi di eventi aleatori.
+:::
+
+:::

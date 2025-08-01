@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>binomiale – Distribution Explorer</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nessun risultato",
+    "search-matching-documents-text": "documenti trovati",
+    "search-copy-link-title": "Copiare il link nella ricerca",
+    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
+    "search-more-match-text": "ci sono altri risultati in questo documento",
+    "search-more-matches-text": "ulteriori risultati in questo documento",
+    "search-clear-button-title": "Pulire",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancellare",
+    "search-submit-button-title": "Inviare",
+    "search-label": "Ricerca"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Distribution Explorer</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Ricerca"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Attiva/disattiva la navigazione" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/bernoulli.qmd"> 
+<span class="menu-text">Bernoulli</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../pages/binomiale.html" aria-current="page"> 
+<span class="menu-text">Binomiale</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/normal.qmd"> 
+<span class="menu-text">Normal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/beta.qmd"> 
+<span class="menu-text">Beta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/exponential.qmd"> 
+<span class="menu-text">Exponential</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/chisq.qmd"> 
+<span class="menu-text">Chi-Squared</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In questa pagina</h2>
+   
+  <ul>
+  <li><a href="#distribuzione-binomiale" id="toc-distribuzione-binomiale" class="nav-link active" data-scroll-target="#distribuzione-binomiale">Distribuzione Binomiale</a>
+  <ul class="collapse">
+  <li><a href="#storia" id="toc-storia" class="nav-link" data-scroll-target="#storia">Storia</a></li>
+  <li><a href="#esempi" id="toc-esempi" class="nav-link" data-scroll-target="#esempi">Esempi</a></li>
+  <li><a href="#parametri" id="toc-parametri" class="nav-link" data-scroll-target="#parametri">Parametri</a></li>
+  <li><a href="#supporto" id="toc-supporto" class="nav-link" data-scroll-target="#supporto">Supporto</a></li>
+  <li><a href="#funzione-di-massa-di-probabilità" id="toc-funzione-di-massa-di-probabilità" class="nav-link" data-scroll-target="#funzione-di-massa-di-probabilità">Funzione di massa di probabilità</a></li>
+  <li><a href="#momenti" id="toc-momenti" class="nav-link" data-scroll-target="#momenti">Momenti</a></li>
+  <li><a href="#funzioni-per-la-distribuzione-binomiale-in-r" id="toc-funzioni-per-la-distribuzione-binomiale-in-r" class="nav-link" data-scroll-target="#funzioni-per-la-distribuzione-binomiale-in-r">Funzioni per la distribuzione binomiale in R</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="distribuzione-binomiale" class="level1">
+<h1>Distribuzione Binomiale</h1>
+<section id="storia" class="level2">
+<h2 class="anchored" data-anchor-id="storia">Storia</h2>
+<p>La distribuzione binomiale è una distribuzione di probabilità discreta che modella il numero di successi <span class="math inline">\(y\)</span> in un numero fissato <span class="math inline">\(n\)</span> di prove di Bernoulli indipendenti e identiche, dove ciascuna prova ha solo due esiti possibili: “successo” (rappresentato da “1”) con probabilità <span class="math inline">\(p\)</span> o “insuccesso” (rappresentato da “0”) con probabilità <span class="math inline">\(1 - p\)</span>. La notazione utilizzata è la seguente:</p>
+<p><span class="math display">\[
+Y \sim \mathcal{Binom}(N, p).
+\]</span></p>
+<div id="def-" class="theorem definition">
+<p><span class="theorem-title"><strong>Definizione 1</strong></span> La distribuzione binomiale descrive la probabilità di osservare esattamente <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove di Bernoulli indipendenti:</p>
+<p><span id="eq-binom-distr"><span class="math display">\[
+P(Y = y) = \binom{N}{y} p^{y} (1 - p)^{N - y} = \frac{N!}{y!(N - y)!} p^{y} (1 - p)^{N - y},
+\tag{1}\]</span></span></p>
+<p>dove <span class="math inline">\(\binom{N}{y}\)</span>, noto come <em>coefficiente binomiale</em>, rappresenta il numero di modi possibili per ottenere <span class="math inline">\(y\)</span> successi in <span class="math inline">\(N\)</span> prove, e <span class="math inline">\(p\)</span> è la probabilità di successo in ciascuna prova.</p>
+</div>
+<p>Una caratteristica interessante della distribuzione binomiale è la sua <em>proprietà di riproducibilità</em>: se due variabili casuali indipendenti, <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_2\)</span>, seguono entrambe distribuzioni binomiali con lo stesso parametro <span class="math inline">\(p\)</span>, ma con un diverso numero di prove (<span class="math inline">\(N_1\)</span> e <span class="math inline">\(N_2\)</span>), la loro somma, <span class="math inline">\(y = y_1 + y_2\)</span>, sarà ancora distribuita binomialmente, con parametri <span class="math inline">\(N_1 + N_2\)</span> e <span class="math inline">\(p\)</span>.</p>
+</section>
+<section id="esempi" class="level2">
+<h2 class="anchored" data-anchor-id="esempi">Esempi</h2>
+<p>La distribuzione binomiale si presta bene a esempi classici come il lancio ripetuto di una moneta o l’estrazione di biglie da un’urna. Ad esempio, nel caso del lancio di una moneta, questa distribuzione descrive la probabilità di ottenere un determinato numero di “teste” in un certo numero di lanci, con ogni lancio che segue una distribuzione di Bernoulli con probabilità di successo <span class="math inline">\(p\)</span>.</p>
+</section>
+<section id="parametri" class="level2">
+<h2 class="anchored" data-anchor-id="parametri">Parametri</h2>
+<p>I parametri coinvolti sono due: <span class="math inline">\(N\)</span>, il numero di prove di Bernoulli, e <span class="math inline">\(p\)</span>, la probabilità di successo per ogni singola prova.</p>
+</section>
+<section id="supporto" class="level2">
+<h2 class="anchored" data-anchor-id="supporto">Supporto</h2>
+<p>La distribuzione Binomiale ha come supporto l’insieme dei numeri interi non negativi minori o uguali a <span class="math inline">\(N\)</span>.</p>
+</section>
+<section id="funzione-di-massa-di-probabilità" class="level2">
+<h2 class="anchored" data-anchor-id="funzione-di-massa-di-probabilità">Funzione di massa di probabilità</h2>
+<p><span id="eq-binomial-distribution"><span class="math display">\[
+P(Y = y) = \binom{N}{y} p^y (1 - p)^{N - y}.
+\tag{2}\]</span></span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dimostrazione
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Per chiarire il calcolo delle probabilità nella <strong>distribuzione binomiale</strong>, consideriamo una serie di prove di <strong>Bernoulli</strong>. Supponiamo di avere <span class="math inline">\(n\)</span> prove indipendenti, ciascuna con probabilità <span class="math inline">\(p\)</span> di successo, e di osservare esattamente <span class="math inline">\(y\)</span> successi.</p>
+<p>Una possibile configurazione dei risultati può essere rappresentata come:</p>
+<p><span class="math display">\[
+\overbrace{SS\dots S}^\text{$y$ successi} \, \overbrace{II\dots I}^\text{$n - y$ insuccessi}
+\]</span></p>
+<p>La probabilità di ottenere <strong>esattamente <span class="math inline">\(y\)</span> successi in una sequenza specifica</strong> (cioè in un ordine fissato) è:</p>
+<p><span class="math display">\[
+p^y \cdot (1 - p)^{n - y},
+\]</span></p>
+<p>dove <span class="math inline">\(p^y\)</span> è la probabilità dei <span class="math inline">\(y\)</span> successi e <span class="math inline">\((1 - p)^{n - y}\)</span> quella dei <span class="math inline">\(n - y\)</span> insuccessi.</p>
+<p>Tuttavia, ciò che ci interessa è la <strong>probabilità complessiva</strong> di ottenere <span class="math inline">\(y\)</span> successi in <em>qualsiasi ordine</em>. In altre parole, vogliamo calcolare la probabilità dell’<strong>unione</strong> di tutte le possibili sequenze di <span class="math inline">\(n\)</span> prove che contengono esattamente <span class="math inline">\(y\)</span> successi.</p>
+<p>Il numero di tali sequenze è dato dal <strong>coefficiente binomiale</strong> <span class="math inline">\(\binom{n}{y}\)</span>, che rappresenta il numero di modi diversi in cui possiamo scegliere le <span class="math inline">\(y\)</span> posizioni dei successi tra le <span class="math inline">\(n\)</span> prove.</p>
+<p>Moltiplicando la probabilità di una singola sequenza per il numero totale di sequenze possibili, otteniamo la <strong>funzione di probabilità della distribuzione binomiale</strong>:</p>
+<p><span class="math display">\[
+P(Y = y) = \binom{n}{y} p^y (1 - p)^{n - y}.
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="momenti" class="level2">
+<h2 class="anchored" data-anchor-id="momenti">Momenti</h2>
+<p>Valore atteso: <span class="math inline">\(\mathbb{E}(y) = N p\)</span>.</p>
+<p>Varianza: <span class="math inline">\(\mathbb{V}(y) = N p (1 - p)\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dimostrazione
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La variabile <span class="math inline">\(Y\)</span> rappresenta il numero di successi in <span class="math inline">\(n\)</span> prove di Bernoulli indipendenti. Possiamo scriverla come somma di <span class="math inline">\(n\)</span> variabili casuali indipendenti:</p>
+<p><span class="math display">\[
+Y = Y_1 + Y_2 + \cdots + Y_n,
+\]</span></p>
+<p>dove ciascuna <span class="math inline">\(Y_i \sim \text{Bernoulli}(p)\)</span>, cioè:</p>
+<p><span class="math display">\[
+Y_i =
+\begin{cases}
+1 &amp; \text{con probabilità } p \\
+0 &amp; \text{con probabilità } 1 - p
+\end{cases}
+\]</span></p>
+<p><strong>Valore atteso di <span class="math inline">\(Y_i\)</span>.</strong></p>
+<p>Per definizione del valore atteso:</p>
+<p><span class="math display">\[
+\mathbb{E}(Y_i) = 1 \cdot p + 0 \cdot (1 - p) = p.
+\]</span></p>
+<p><strong>Valore atteso di <span class="math inline">\(Y_i^2\)</span>.</strong></p>
+<p>Poiché <span class="math inline">\(Y_i\)</span> assume solo i valori 0 e 1, si ha <span class="math inline">\(Y_i^2 = Y_i\)</span>. Quindi:</p>
+<p><span class="math display">\[
+\mathbb{E}(Y_i^2) = \mathbb{E}(Y_i) = p.
+\]</span></p>
+<p>La <strong>varianza</strong> di una variabile casuale si definisce come:</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y_i) = \mathbb{E}(Y_i^2) - [\mathbb{E}(Y_i)]^2.
+\]</span></p>
+<p>Sostituendo i valori trovati sopra:</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y_i) = p - p^2 = p(1 - p).
+\]</span></p>
+<p>Ricordiamo che <span class="math inline">\(Y = \sum_{i=1}^{n} Y_i\)</span> e che le <span class="math inline">\(Y_i\)</span> sono <strong>indipendenti</strong>. Una proprietà fondamentale della varianza è che se <span class="math inline">\(Z_1, \dots, Z_n\)</span> sono indipendenti:</p>
+<p><span class="math display">\[
+\operatorname{Var}(Z_1 + \cdots + Z_n) = \operatorname{Var}(Z_1) + \cdots + \operatorname{Var}(Z_n).
+\]</span></p>
+<p>Applichiamola al nostro caso:</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y) = \sum_{i=1}^{n} \operatorname{Var}(Y_i).
+\]</span></p>
+<p>Poiché tutte le <span class="math inline">\(Y_i\)</span> hanno la stessa varianza <span class="math inline">\(p(1 - p)\)</span>, la somma diventa:</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y) = n \cdot p(1 - p).
+\]</span></p>
+<p>Abbiamo dimostrato da definizione che, se <span class="math inline">\(Y \sim \text{Bin}(n, p)\)</span>, allora:</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y) = n \cdot p \cdot (1 - p).
+\]</span></p>
+<p>Questa formula descrive la dispersione attesa nel numero di successi su <span class="math inline">\(n\)</span> prove indipendenti, ciascuna con probabilità di successo <span class="math inline">\(p\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempi
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Supponiamo di lanciare 4 volte una moneta truccata che ha una probabilità di successo (es. ottenere testa) pari a <span class="math inline">\(p = 0.2\)</span>.</p>
+<p>Vogliamo calcolare:</p>
+<ul>
+<li>la media attesa del numero di teste,</li>
+<li>la varianza,</li>
+<li>e la deviazione standard.</li>
+</ul>
+<ol type="1">
+<li>Calcolo del valore atteso (media):</li>
+</ol>
+<p><span class="math display">\[
+\mu = n \cdot p = 4 \cdot 0.2 = 0.8 .
+\]</span></p>
+<p>Quindi, <em>in media</em>, ci aspettiamo di ottenere 0.8 teste ogni 4 lanci (cioè meno di 1, ma ricordiamo che si tratta di una media).</p>
+<ol start="2" type="1">
+<li>Calcolo della varianza:</li>
+</ol>
+<p><span class="math display">\[
+\text{Varianza} = n \cdot p \cdot (1 - p) = 4 \cdot 0.2 \cdot 0.8 = 0.64 .
+\]</span></p>
+<ol start="3" type="1">
+<li>Calcolo della deviazione standard:</li>
+</ol>
+<p><span class="math display">\[
+\sigma = \sqrt{0.64} \approx 0.8 .
+\]</span></p>
+<p>La deviazione standard ci dà un’idea della <em>variabilità</em> dei risultati: in questo caso, i valori osservati (numero di teste su 4 lanci) si discostano dalla media di circa 0.8 in media.</p>
+<p><strong>Verifica con una simulazione in R.</strong></p>
+<p>Per vedere se i calcoli teorici dell’esempio precedente funzionano anche nella pratica, possiamo <em>simulare</em> l’esperimento in R: lanciamo 4 monete, ma lo facciamo <em>tantissime volte</em> (ad esempio 1 milione) e calcoliamo la media e la varianza dei risultati ottenuti.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generiamo 1 milione di esperimenti: 4 lanci con probabilità di successo 0.2</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="fl">1e6</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcoliamo la media empirica</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8002</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] circa 0.8</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcoliamo la varianza empirica</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.639</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] circa 0.64</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Come possiamo vedere, i risultati ottenuti dalla simulazione sono <em>molto vicini ai valori teorici</em>: la media è circa <span class="math inline">\(\mu = 0.8\)</span> e la varianza circa <span class="math inline">\(0.64\)</span>, proprio come previsto dalle formule.</p>
+<p>Questo non solo conferma che le formule per media e varianza nella distribuzione binomiale sono corrette, ma ci aiuta anche a capire meglio <em>cosa significano</em>:</p>
+<ul>
+<li>il <em>valore atteso</em> rappresenta la <em>media dei risultati</em> se ripetiamo l’esperimento moltissime volte;<br>
+</li>
+<li>la <em>varianza</em> (e la sua radice quadrata, la <em>deviazione standard</em>) misura <em>quanto i risultati si allontanano dalla media</em>.</li>
+</ul>
+<p>La simulazione mostra quindi in modo concreto che <em>il valore atteso e la varianza descrivono il comportamento “medio” della variabile casuale</em>, quando viene osservata in un numero molto grande di situazioni. In altre parole, questi concetti non sono solo teorici: ci dicono cosa aspettarci nella pratica, se ripetiamo molte volte lo stesso esperimento.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="funzioni-per-la-distribuzione-binomiale-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="funzioni-per-la-distribuzione-binomiale-in-r">Funzioni per la distribuzione binomiale in R</h2>
+<p><em>(Y ~ Bin(n, p))</em></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 50%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tipo di funzione</th>
+<th style="text-align: left;">Comando R &amp; Formula</th>
+<th style="text-align: left;">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Densità di probabilità</strong></td>
+<td style="text-align: left;"><code>dbinom(y, size = n, prob = p)</code></td>
+<td style="text-align: left;">Calcola <span class="math inline">\(P(Y = y)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Probabilità cumulativa (CDF)</strong></td>
+<td style="text-align: left;"><code>pbinom(y, size = n, prob = p)</code></td>
+<td style="text-align: left;"><span class="math inline">\(P(Y \leq y)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Probabilità della coda superiore</strong></td>
+<td style="text-align: left;"><code>1 - pbinom(y - 1, size = n, prob = p)</code></td>
+<td style="text-align: left;">P(Y ≥ y)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Probabilità in un intervallo</strong></td>
+<td style="text-align: left;"><code>pbinom(y2, ...) - pbinom(y1, ...)</code></td>
+<td style="text-align: left;"><span class="math inline">\(P(y_1 &lt; Y \leq y_2)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Quantile (inversa CDF)</strong></td>
+<td style="text-align: left;"><code>qbinom(q, size = n, prob = p)</code></td>
+<td style="text-align: left;">Trova y tale che <span class="math inline">\(P(Y \leq y)\)</span> = q</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Generazione di numeri casuali</strong></td>
+<td style="text-align: left;"><code>rbinom(N, size = n, prob = p)</code></td>
+<td style="text-align: left;">Simula <span class="math inline">\(N\)</span> valori da Bin(n,p)</td>
+</tr>
+</tbody>
+</table>
+<p>Note:</p>
+<ol type="1">
+<li><code>n</code> = numero di prove (parametro size in R).</li>
+<li><code>p</code> = probabilità di successo.</li>
+<li>Per P(Y &gt; y) usare <code>1 - pbinom(y, ...)</code>.</li>
+<li>Per intervalli aperti: <span class="math inline">\(P(y_1 ≤ Y &lt; y_2)\)</span> = <code>pbinom(y_2-1, ...) - pbinom(y_1-1, ...)</code>.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempi
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Calcolare la probabilità di esattamente <span class="math inline">\(y = 3\)</span> successi su <span class="math inline">\(n = 5\)</span> prove con <span class="math inline">\(p = 0.5\)</span>.</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3125</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ol start="2" type="1">
+<li>Calcolare la probabilità cumulativa <span class="math inline">\(P(Y \leq 3)\)</span>.</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">3</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8125</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ol start="3" type="1">
+<li>Calcolare il valore minimo <span class="math inline">\(y\)</span> tale che <span class="math inline">\(P(Y \leq y) \geq 0.9\)</span>.</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbinom</span>(<span class="fl">0.9</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ol start="4" type="1">
+<li>Generare un campione di 100 numeri casuali da una distribuzione binomiale.</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">100</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] 2 2 4 1 3 2 3 2 2 2 3 3 3 3 1 4 1 1 0 2 2 2 4 1 2 3 3 1 5 2 3 3 0 3 2</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [36] 3 4 2 3 3 3 3 1 5 3 3 2 3 1 2 1 3 3 2 2 4 1 4 2 3 1 4 2 2 3 4 1 1 4 2</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [71] 3 2 3 3 3 1 4 4 3 3 4 3 3 3 2 2 3 3 2 4 4 3 2 2 0 3 1 3 1 2</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Approfondimenti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="caso-particolare-n-1" class="level3">
+<h3 class="anchored" data-anchor-id="caso-particolare-n-1">Caso particolare <span class="math inline">\(n = 1\)</span></h3>
+<p>Ora consideriamo il caso particolare in cui <span class="math inline">\(n = 1\)</span>. Quando <span class="math inline">\(n = 1\)</span>, il coefficiente binomiale diventa:</p>
+<p><span class="math display">\[
+\binom{1}{y} = \frac{1!}{y! (1-y)!}.
+\]</span></p>
+<p>Espandiamo i fattoriali per i due possibili valori di <span class="math inline">\(y\)</span>, che può assumere solo 0 o 1 (poiché <span class="math inline">\(y \in \{0, 1, \dots, n\}\)</span>).</p>
+<p><strong>Caso 1: <span class="math inline">\(y = 0\)</span></strong></p>
+<p><span class="math display">\[
+\binom{1}{0} = \frac{1!}{0! (1-0)!} = \frac{1}{1 \cdot 1} = 1.
+\]</span></p>
+<p>Quindi, per <span class="math inline">\(y = 0\)</span>: <span class="math display">\[
+P(Y = 0) = \binom{1}{0} p^0 (1-p)^{1-0} = 1 \cdot 1 \cdot (1-p) = 1-p.
+\]</span></p>
+<p><strong>Caso 2: <span class="math inline">\(y = 1\)</span></strong></p>
+<p><span class="math display">\[
+\binom{1}{1} = \frac{1!}{1! (1-1)!} = \frac{1}{1 \cdot 1} = 1.
+\]</span></p>
+<p>Quindi, per <span class="math inline">\(y = 1\)</span>: <span class="math display">\[
+P(Y = 1) = \binom{1}{1} p^1 (1-p)^{1-1} = 1 \cdot p \cdot 1 = p.
+\]</span></p>
+<p>In conclusione, la PMF per la distribuzione binomiale con <span class="math inline">\(n = 1\)</span> diventa:</p>
+<p><span class="math display">\[
+P(Y = y) =
+\begin{cases}
+1-p, &amp; \text{se } y = 0, \\
+p, &amp; \text{se } y = 1.
+\end{cases}
+\]</span></p>
+<p>Questa è esattamente la PMF della distribuzione di Bernoulli con parametro <span class="math inline">\(p\)</span>:</p>
+<p><span class="math display">\[
+P(Y = y) = p^y (1-p)^{1-y}, \quad y \in \{0, 1\}.
+\]</span></p>
+<p>Pertanto, la distribuzione binomiale con <span class="math inline">\(n = 1\)</span> è equivalente alla distribuzione di Bernoulli con parametro <span class="math inline">\(p\)</span>.</p>
+</section>
+<section id="applicazioni-pratiche-della-distribuzione-binomiale" class="level3">
+<h3 class="anchored" data-anchor-id="applicazioni-pratiche-della-distribuzione-binomiale">Applicazioni Pratiche della Distribuzione Binomiale</h3>
+<p>Per illustrare l’applicazione della distribuzione binomiale, consideriamo un esempio semplice. Supponiamo di osservare <strong>2 successi su 4 prove di Bernoulli</strong>, dove la probabilità di successo in ogni prova è <span class="math inline">\(p = 0.2\)</span>. La probabilità di ottenere esattamente questo risultato si calcola con la formula:</p>
+<p><span class="math display">\[
+P(Y = 2) = \binom{4}{2} \cdot 0.2^2 \cdot (1 - 0.2)^{2} = 0.1536.
+\]</span></p>
+<p>In R, questo calcolo si può fare in modo diretto:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parametri</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcolo della probabilità esatta</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">choose</span>(n, y) <span class="sc">*</span> p<span class="sc">^</span>y <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p)<span class="sc">^</span>(n <span class="sc">-</span> y)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(prob)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1536</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>In alternativa, possiamo usare la funzione <code>dbinom()</code> per ottenere la stessa probabilità:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="at">x =</span> y, <span class="at">size =</span> n, <span class="at">prob =</span> p)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(prob)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1536</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="visualizzazione-della-distribuzione-di-probabilità" class="level3">
+<h3 class="anchored" data-anchor-id="visualizzazione-della-distribuzione-di-probabilità">Visualizzazione della distribuzione di probabilità</h3>
+<p>Possiamo rappresentare graficamente la <strong>distribuzione di massa di probabilità</strong> per tutti i possibili valori di <span class="math inline">\(y\)</span> da <span class="math inline">\(0\)</span> a <span class="math inline">\(n\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>n</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, <span class="at">size =</span> n, <span class="at">prob =</span> p)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Successi =</span> y, Probabilità <span class="ot">=</span> probabilities)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Successi, <span class="at">y =</span> Probabilità)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">xend =</span> Successi, <span class="at">yend =</span> <span class="dv">0</span>), <span class="at">lwd =</span> <span class="fl">1.2</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> okabe_ito_palette[<span class="dv">2</span>]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> okabe_ito_palette[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Numero di successi y"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Probabilità"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Distribuzione binomiale: n ="</span>, n, <span class="st">", p ="</span>, p)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="binomiale_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="generazione-di-un-campione-casuale" class="level4">
+<h4 class="anchored" data-anchor-id="generazione-di-un-campione-casuale">Generazione di un campione casuale</h4>
+<p>La funzione <code>rbinom()</code> permette di generare un campione casuale da una distribuzione binomiale:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">30</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(samples)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 4 4 2 4 3 3 3 1 3 3 2 3 4 2 2 4 5 1 2 3 4 1 5 4 1 3 2 4 2 4</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="variazione-della-distribuzione-al-variare-di-p" class="level4">
+<h4 class="anchored" data-anchor-id="variazione-della-distribuzione-al-variare-di-p">Variazione della distribuzione al variare di <span class="math inline">\(p\)</span></h4>
+<p>Per esplorare l’effetto di diversi valori di <span class="math inline">\(p\)</span> sulla forma della distribuzione, possiamo visualizzare più curve binomiali per <span class="math inline">\(n = 20\)</span> e <span class="math inline">\(p\)</span> variabile:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>p_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.3</span>, <span class="fl">0.9</span>, <span class="at">by =</span> <span class="fl">0.3</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">25</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (p <span class="cf">in</span> p_values) {</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  binom_dist <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, <span class="at">size =</span> n, <span class="at">prob =</span> p)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df, <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">Prob =</span> binom_dist, <span class="at">p =</span> <span class="fu">factor</span>(p)))</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> Prob, <span class="at">color =</span> p)) <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Numero di successi y"</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Probabilità"</span>,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Distribuzioni binomiali con diversi valori di p"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="fu">expression</span>(p)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="binomiale_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="funzione-di-ripartizione-cumulativa" class="level3">
+<h3 class="anchored" data-anchor-id="funzione-di-ripartizione-cumulativa">Funzione di ripartizione cumulativa</h3>
+<p>Possiamo anche rappresentare la <strong>funzione di distribuzione cumulativa</strong> (CDF) per <span class="math inline">\(n = 5\)</span> e <span class="math inline">\(p = 0.5\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>n</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>cdf_values <span class="ot">&lt;-</span> <span class="fu">pbinom</span>(y, <span class="at">size =</span> n, <span class="at">prob =</span> p)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">cdf =</span> cdf_values)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">y =</span> cdf)) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Funzione di ripartizione: n ="</span>, n, <span class="st">", p ="</span>, p),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Numero di successi y"</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Probabilità cumulativa"</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="binomiale_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="exm-" class="theorem example">
+<p><span class="theorem-title"><strong>Esempio 1</strong></span> Supponiamo di lanciare una <strong>moneta equa</strong> (cioè con probabilità <span class="math inline">\(p = 0.5\)</span> di ottenere testa) <strong>5 volte</strong>. Vogliamo calcolare la probabilità di ottenere <strong>almeno 2 teste</strong>, ovvero:</p>
+<p><span class="math display">\[
+P(Y \geq 2) = P(Y = 2) + P(Y = 3) + P(Y = 4) + P(Y = 5).
+\]</span></p>
+<p>Possiamo sommare direttamente queste probabilità usando <code>dbinom()</code>:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8125</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Un modo alternativo, più efficiente, consiste nel calcolare il <strong>complemento</strong> della probabilità di ottenere <strong>meno di 2 teste</strong> (cioè 0 o 1):</p>
+<p><span class="math display">\[
+P(Y \geq 2) = 1 - P(Y \leq 1)
+\]</span></p>
+<p>In R, possiamo usare la funzione <code>pbinom()</code> per calcolare questa probabilità cumulativa:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="at">q =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8125</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Entrambi i metodi restituiscono lo stesso risultato numerico, ma il secondo è spesso preferibile quando <span class="math inline">\(n\)</span> è grande o quando si vuole calcolare una probabilità di coda.</p>
+</div>
+</section>
+<section id="quantili-di-una-distribuzione-binomiale" class="level3">
+<h3 class="anchored" data-anchor-id="quantili-di-una-distribuzione-binomiale">Quantili di una distribuzione binomiale</h3>
+<p>La funzione <code>qbinom()</code> permette di calcolare il <strong>quantile</strong> di una distribuzione binomiale, cioè il <strong>numero minimo di successi</strong> <span class="math inline">\(y\)</span> tale che la probabilità cumulativa <span class="math inline">\(P(Y \leq y)\)</span> sia <strong>maggiore o uguale</strong> a una certa soglia.</p>
+<p>Ad esempio, supponiamo di voler sapere <strong>qual è il numero minimo di successi</strong> tale che la probabilità cumulativa sia <strong>almeno 60%</strong>. Possiamo usare:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilità cumulativa desiderata</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>target_probability <span class="ot">&lt;-</span> <span class="fl">0.60</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcolo del quantile</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="at">p =</span> target_probability, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Il risultato è <code>3</code>, il che significa che:</p>
+<p><span class="math display">\[
+P(Y \leq 3) = 0.8125 \geq 0.60,
+\]</span></p>
+<p>mentre</p>
+<p><span class="math display">\[
+P(Y \leq 2) = 0.5 &lt; 0.60.
+\]</span></p>
+<p>Quindi, servono <strong>almeno 3 successi</strong> per superare la soglia del 60% di probabilità cumulativa.</p>
+<blockquote class="blockquote">
+<p><code>qbinom(p, size, prob)</code> restituisce il <strong>più piccolo valore di <span class="math inline">\(y\)</span></strong> tale che <span class="math inline">\(P(Y \leq y) \geq p\)</span>.</p>
+</blockquote>
+<section id="rappresentazione-grafica-del-quantile" class="level4">
+<h4 class="anchored" data-anchor-id="rappresentazione-grafica-del-quantile">Rappresentazione grafica del quantile</h4>
+<p>Per visualizzare il comportamento della funzione di ripartizione cumulativa e individuare il quantile per <span class="math inline">\(p = 0.60\)</span>, possiamo usare il seguente codice in R:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parametri</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>target_probability <span class="ot">&lt;-</span> <span class="fl">0.60</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Asse y: numero di successi</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>n</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcolo dei valori cumulativi</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>cdf <span class="ot">&lt;-</span> <span class="fu">pbinom</span>(y, <span class="at">size =</span> n, <span class="at">prob =</span> p)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcolo del quantile</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(target_probability, <span class="at">size =</span> n, <span class="at">prob =</span> p)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Successi =</span> y, <span class="at">CDF =</span> cdf)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Grafico</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Successi, <span class="at">y =</span> CDF)) <span class="sc">+</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="at">direction =</span> <span class="st">"hv"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> target_probability, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> q, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> q <span class="sc">+</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"quantile ="</span>, q),</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"blue"</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> target_probability <span class="sc">+</span> <span class="fl">0.05</span>,</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"soglia ="</span>, target_probability), <span class="at">color =</span> <span class="st">"red"</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste</span>(</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Funzione di ripartizione cumulativa (n ="</span>, n, <span class="st">", p ="</span>, p, <span class="st">")"</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Numero di successi"</span>,</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Probabilità cumulativa"</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="fl">1.05</span>)</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="binomiale_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In questo grafico:</p>
+<ul>
+<li>la <strong>linea rossa tratteggiata</strong> rappresenta la soglia di probabilità desiderata (es. 0.60);</li>
+<li>la <strong>linea blu tratteggiata verticale</strong> indica il quantile corrispondente, cioè il più piccolo valore di <span class="math inline">\(y\)</span> per cui <span class="math inline">\(P(Y \leq y) \geq 0.60\)</span>;</li>
+<li>il valore calcolato è <code>3</code>, quindi con <strong>al massimo 3 successi</strong>, la probabilità cumulativa supera il 60%.</li>
+</ul>
+<div id="exm-" class="theorem example">
+<p><span class="theorem-title"><strong>Esempio 2</strong></span> Consideriamo una <strong>distribuzione binomiale</strong> con <span class="math inline">\(n = 10\)</span> prove e probabilità di successo <span class="math inline">\(p = 0.2\)</span>. Supponiamo di voler calcolare la probabilità di ottenere <strong>al massimo 4 successi</strong>. In termini matematici, vogliamo calcolare:</p>
+<p><span class="math display">\[
+P(Y \leq 4) .
+\]</span></p>
+<p>In R, questo si ottiene con la funzione <code>pbinom()</code>:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcolo della probabilità cumulativa fino a 4 successi</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p_cumulativa <span class="ot">&lt;-</span> <span class="fu">pbinom</span>(<span class="dv">4</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_cumulativa)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9672</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Il risultato indica che c’è circa l’<strong>97%</strong> di probabilità di ottenere 4 o meno successi su 10 prove, quando la probabilità di successo in ciascuna prova è 0.2.</p>
+<p>Ora facciamo il <strong>passaggio inverso</strong>: immaginiamo di conoscere la probabilità cumulativa (per esempio, 0.97) e vogliamo sapere <strong>quanti successi</strong> bisogna considerare per raggiungere quella probabilità.</p>
+<p>Per questo usiamo la funzione <code>qbinom()</code>, che ci restituisce il <strong>più piccolo numero di successi <span class="math inline">\(y\)</span> tale che <span class="math inline">\(P(Y \leq y) \geq\)</span> quella probabilità</strong>:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Codice</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcolo del numero di successi associato alla probabilità cumulativa</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>numero_successi <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(p_cumulativa, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(numero_successi)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Il valore ottenuto sarà <code>4</code>, cioè il <strong>minimo numero di successi</strong> per cui la probabilità cumulativa è almeno il 97%.</p>
+<p><strong>Riepilogo concetti chiave</strong>:</p>
+<ul>
+<li><code>pbinom(y, n, p)</code> calcola la probabilità di ottenere <strong>al massimo <span class="math inline">\(y\)</span> successi</strong>;</li>
+<li><code>qbinom(prob, n, p)</code> calcola <strong>il numero minimo di successi</strong> necessari per raggiungere almeno quella probabilità.</li>
+</ul>
+<p>In sintesi, <code>pbinom()</code> e <code>qbinom()</code> sono strumenti complementari: <code>pbinom</code> ci dà la probabilità di ottenere fino a un certo numero di successi, mentre <code>qbinom</code> ci dice fino a quanti successi possiamo ottenere per raggiungere una certa probabilità. Nell’analisi di una distribuzione binomiale (e di molte altre distribuzioni) queste funzioni aiutano a calcolare e interpretare facilmente probabilità cumulate e quantili in R, rendendo più semplice l’analisi di eventi aleatori.</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiato!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiato!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Corrado Caudek</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

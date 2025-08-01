@@ -1,0 +1,23 @@
+# Motivazione  
+
+I mattoni fondamentali dei modelli statistici sono le **distribuzioni di probabilità**. Definire un modello significa scegliere le distribuzioni che meglio descrivono il processo di generazione dei dati. In alcuni casi, è necessario derivare una distribuzione basandosi su considerazioni specifiche legate all’esperimento o al modello (o addirittura calcolarla numericamente quando non è esprimibile in forma chiusa). Tuttavia, in molte situazioni pratiche, i modelli sono costruiti a partire da **distribuzioni standard**, ognuna delle quali è associata a una "storia" che ne spiega l’origine.  
+
+Ad esempio, la distribuzione di Bernoulli descrive il risultato del lancio di una moneta: se il processo che genera i dati corrisponde a tale storia, allora sappiamo che si tratta della distribuzione giusta da utilizzare nel nostro modello.  
+
+In ambito bayesiano, è inoltre necessario specificare **distribuzioni a priori** per i parametri che codificano la conoscenza iniziale sui loro valori prima di osservare i dati. In pratica, possiamo abbozzare una **funzione di densità di probabilità (PDF)** o, più raramente, una **funzione di massa di probabilità (PMF)** nel caso di parametri discreti. Scegliere una distribuzione già nota, con parametri appropriati, che rispecchi la nostra intuizione può semplificare notevolmente il lavoro.
+
+Le distribuzioni più comuni sono disponibili in diversi pacchetti software; in questa risorsa ci concentreremo principalmente su **R**, con alcuni riferimenti a **Stan**.  
+
+## Cos’è **Distribution Explorer**?  
+
+Distribution Explorer è una risorsa che raccoglie informazioni dettagliate su diverse distribuzioni di probabilità. Per ogni distribuzione troverai:  
+
+- la sua **"storia"** e il contesto in cui viene utilizzata;  
+- le espressioni matematiche di **PDF/PMF** e **CDF**;  
+- i **momenti** (media, varianza, ecc.);  
+- **grafici interattivi** della PDF/PMF e della CDF, con slider per regolare i parametri e visualizzare in tempo reale come cambia la distribuzione.  
+
+Questo strumento ti permette di esplorare le diverse distribuzioni e trovare i parametri ottimali per modellare i dati o definire le distribuzioni a priori in modo intuitivo.
+
+
+
